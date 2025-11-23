@@ -115,7 +115,7 @@ int buscaBinariaItemNome(Item *mochila, int tamMochila)
     int inicio = 0;
     int fim = tamMochila - 1;
     char nomeBuscado[50];
-
+    ordenarMochilaPorNome(mochila, tamMochila);
     printf("Digite o nome para buscar: ");
     scanf("%s", nomeBuscado);
 
@@ -139,7 +139,7 @@ int buscaBinariaItemNome(Item *mochila, int tamMochila)
         }
         for (int i = 0; i < tamMochila; i++)
         {
-            imprimirItem(mochila[i]);
+            return i;
         }
     }
     return -1;
@@ -151,6 +151,21 @@ void runMochila(Item *mochila, int tamanho)
     {
         imprimirItem(mochila[i]);
     }
+}
+void removerItem(Item *mochila, int *tamMochila){
+    Item itemRemover;
+    printf("Qual o nome do item que deseja remover\n");
+    scanf("%s", itemRemover.nome);
+    int indice = buscaBinariaItemNome(mochila, *tamMochila);
+    if (indice == -1){
+        printf("Item nao encontrado na mochila.\n");
+        return;
+    }
+    for (int i = indice; i < *tamMochila - 1; i++){
+        mochila[i] = mochila[i + 1];
+    }
+    (*tamMochila)--;
+    printf("Item removido com sucesso!\n");
 }
 
 int main()
@@ -180,7 +195,7 @@ int main()
         printf("2 - Remover item (Nao implementado)\n");
         printf("3 - Ver itens da mochila\n");
         printf("4 - Ordenar itens \n");
-        printf("6 - Buscar item por nome (Busca Binaria)\n"); // Nova opção
+        printf("6 - Buscar item por nome (Busca Binaria)\n"); 
         printf("0 - Sair\n");
         printf("Escolha: ");
 
@@ -258,8 +273,6 @@ int main()
 
     return 0;
 }
-
-// sistema de remoção de itens
 
 // sla que porra é enum
 // daonde tiraram bool nessa porra
