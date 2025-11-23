@@ -195,7 +195,7 @@ int main()
         printf("2 - Remover item (Nao implementado)\n");
         printf("3 - Ver itens da mochila\n");
         printf("4 - Ordenar itens \n");
-        printf("6 - Buscar item por nome (Busca Binaria)\n"); 
+        printf("5 - Buscar item por nome (Busca Binaria)\n"); 
         printf("0 - Sair\n");
         printf("Escolha: ");
 
@@ -249,7 +249,7 @@ int main()
                 printf("Quantidade de comparacoes executadas: %d\n", quantDeComparacoes);
             break;
 
-        case 6:
+        case 5:
             int indice = buscaBinariaItemNome(mochila, tamMochila);
             if (indice != -1)
             {
