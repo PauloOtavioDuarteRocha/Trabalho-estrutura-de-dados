@@ -29,17 +29,17 @@ void adcionarItem(Item *mochila,int *tamMochila) {
     printf("Qual o tipo do item que deseja adcionar\n");
     scanf("%s", novoItem.tipo);
     printf("Qual a quantidade do item que deseja adcionar\n");
-    scanf("%d", novoItem.quantidade);
+    scanf("%d", &novoItem.quantidade);
     printf("Qual a prioridade do item que deseja adcionar\n");
-    scanf("%d", novoItem.prioridade);  
+    scanf("%d", &novoItem.prioridade);
     mochila[*tamMochila] = novoItem;
     *tamMochila = *tamMochila + 1;
 }
 
 // Sistema de ordenação dos itens na mochila baseado na prioridade
-void ordenarMochila(Item* mochila, int tam_mochila) {
-    for (int i = 0; i < tam_mochila - 1; i++) {
-        for (int j = 0; j < tam_mochila - i - 1; j++) {
+void ordenarMochila(Item* mochila, int tamMochila) {
+    for (int i = 0; i < tamMochila - 1; i++) {
+        for (int j = 0; j < tamMochila - i - 1; j++) {
             if (mochila[j].prioridade < mochila[j + 1].prioridade) {
                 Item temp = mochila[j];
                 mochila[j] = mochila[j + 1];
@@ -50,9 +50,9 @@ void ordenarMochila(Item* mochila, int tam_mochila) {
 }
 
 // Sistema de ordenação dos itens na mochila baseado no nome
-void ordenarMochilaPorNome(Item* mochila, int tam_mochila) {
-    for (int i = 0; i < tam_mochila - 1; i++) {
-        for (int j = 0; j < tam_mochila - i - 1; j++) {
+void ordenarMochilaPorNome(Item* mochila, int tamMochila) {
+    for (int i = 0; i < tamMochila - 1; i++) {
+        for (int j = 0; j < tamMochila - i - 1; j++) {
             if (strcmp(mochila[j].nome, mochila[j + 1].nome) > 0) {
                 Item temp = mochila[j];
                 mochila[j] = mochila[j + 1];
@@ -62,73 +62,95 @@ void ordenarMochilaPorNome(Item* mochila, int tam_mochila) {
     }
 }
 
-void limpaTerminal() {
+int buscaBinariaItemNome(Item *mochila, int tamMochila) {
+    int inicio = 0;
+    int fim = tamMochila - 1;
+    char nomeBuscado[50];
+
+    printf("Digite o nome para buscar: ");
+    scanf("%s", nomeBuscado);
+
+    while (inicio <= fim) {
+        int meio = inicio + (fim - inicio) / 2;
+
+        int comparacao = strcmp(mochila[meio].nome, nomeBuscado);
+
+        if (comparacao == 0) {
+            return meio;
+        } else if (comparacao < 0) {
+            inicio = meio + 1;
+        } else {
+            fim = meio - 1;
+        }
+    }
+    return -1;
 }
-
-
-
 
 int main() {
     Item mochila[10]; 
-    int tam_mochila = 0;
-    printf("incializando mochila\n");
+    int tamMochila = 0;
+    
+    printf("--- Inicializando mochila (adicione 3 itens iniciais) ---\n");
     for (int i = 0; i < 3; i++) {
-        adcionarItem(mochila, &tam_mochila);
+        printf("Item %d/3:\n", i + 1);
+        adcionarItem(mochila, &tamMochila);
     }
+
     bool continua = true;
-    do{
-        printf("O que deseja fazer?\n");
-        printf("1 - Adcionar item\n");
-        printf("2 - Remover item\n");
+    do {
+        printf("\n=== SISTEMA DA MOCHILA ===\n");
+        printf("1 - Adicionar item\n");
+        printf("2 - Remover item (Nao implementado)\n");
         printf("3 - Ver itens da mochila\n");
         printf("4 - Ordenar itens por prioridade\n");
-        printf("5 - Ordenar itens por nome\n");
+        printf("5 - Ordenar itens por nome (Necessario para busca)\n");
+        printf("6 - Buscar item por nome (Busca Binaria)\n"); // Nova opção
         printf("0 - Sair\n");
+        printf("Escolha: ");
+
         int escolha;
         scanf("%d", &escolha);
-        switch (escolha)
-        {
+
+        switch (escolha) {
         case 1:
-            adcionarItem(mochila, &tam_mochila);
-            limpaTerminal();
-            printf("Item adcionado com sucesso!\n");
+            adcionarItem(mochila, &tamMochila);
+            printf("Item adicionado com sucesso!\n");
             break;
         case 2:
-            //removerItem(mochila, &tam_mochila);
-            limpaTerminal();
             printf("Funcao de remover item ainda nao implementada\n");
             break;
         case 3:
-            limpaTerminal();
-            printf("Itens na mochila:\n");
-            for (int i = 0; i < tam_mochila; i++) {
+            printf("Itens na mochila (%d itens):\n", tamMochila);
+            for (int i = 0; i < tamMochila; i++) {
                 imprimirItem(mochila[i]);
             }
             break;
         case 4:
-            ordenarMochila(mochila, tam_mochila);
-            limpaTerminal();
+            ordenarMochila(mochila, tamMochila);
             printf("Mochila ordenada por prioridade com sucesso!\n");
             break;
         case 5:
-            ordenarMochilaPorNome(mochila, tam_mochila);
-            limpaTerminal();
+            ordenarMochilaPorNome(mochila, tamMochila);
             printf("Mochila ordenada por nome com sucesso!\n");
+            break;
+        case 6:
+            int indice = buscaBinariaItemNome(mochila, tamMochila);
+            if (indice != -1) {
+                printf("\nItem ENCONTRADO na posicao %d:\n", indice);
+                imprimirItem(mochila[indice]);
+            } else {
+                printf("\nItem NAO encontrado.\n");
+            }
             break;
         case 0:
             continua = false;
-            limpaTerminal();
             printf("Saindo do programa...\n");
             break;
-        
         default:
-            limpaTerminal();
-            printf("Opcao invalida\n");
-            printf("Tente novamente\n");
+            printf("Opcao invalida! Tente novamente.\n");
             break;
         }
-    }while (continua == true);
-        
-    
-    
+    } while (continua);
+
+    return 0;
 }
