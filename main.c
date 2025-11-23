@@ -38,27 +38,32 @@ void adcionarItem(Item *mochila,int *tamMochila) {
 
 // Sistema de ordenação dos itens na mochila baseado na prioridade
 void ordenarMochila(Item* mochila, int tamMochila) {
-    for (int i = 0; i < tamMochila - 1; i++) {
-        for (int j = 0; j < tamMochila - i - 1; j++) {
-            if (mochila[j].prioridade < mochila[j + 1].prioridade) {
-                Item temp = mochila[j];
-                mochila[j] = mochila[j + 1];
-                mochila[j + 1] = temp;
-            }
+    int i, j;
+    Item key;
+    for (i = 1; i < tamMochila; i++) {
+        key = mochila[i];
+        j = i - 1;
+
+        while (j >= 0 && mochila[j].prioridade < key.prioridade) {
+            mochila[j + 1] = mochila[j];
+            j = j - 1;
         }
+        mochila[j + 1] = key;
     }
 }
 
 // Sistema de ordenação dos itens na mochila baseado no nome
 void ordenarMochilaPorNome(Item* mochila, int tamMochila) {
-    for (int i = 0; i < tamMochila - 1; i++) {
-        for (int j = 0; j < tamMochila - i - 1; j++) {
-            if (strcmp(mochila[j].nome, mochila[j + 1].nome) > 0) {
-                Item temp = mochila[j];
-                mochila[j] = mochila[j + 1];
-                mochila[j + 1] = temp;
-            }
+    int i, j;
+    Item tempItem;
+        for (i = 1; i < tamMochila; i++) {
+        tempItem = mochila[i];
+        j = i - 1;
+        while (j >= 0 && strcmp(mochila[j].nome, mochila[j + 1].nome) > 0) {
+            mochila[j + 1] = mochila[j];
+            j = j - 1;
         }
+        mochila[j + 1] = tempItem;
     }
 }
 
