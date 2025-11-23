@@ -155,7 +155,6 @@ void runMochila(Item *mochila, int tamanho)
 void removerItem(Item *mochila, int *tamMochila){
     Item itemRemover;
     printf("Qual o nome do item que deseja remover\n");
-    scanf("%s", itemRemover.nome);
     int indice = buscaBinariaItemNome(mochila, *tamMochila);
     if (indice == -1){
         printf("Item nao encontrado na mochila.\n");
@@ -209,7 +208,7 @@ int main()
             printf("Item adicionado com sucesso!\n");
             break;
         case 2:
-            printf("Funcao de remover item ainda nao implementada\n");
+            removerItem(mochila, &tamMochila);
             break;
         case 3:
             printf("Itens na mochila (%d itens):\n", tamMochila);
