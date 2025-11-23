@@ -159,3 +159,11 @@ int main() {
 
     return 0;
 }
+
+// Limitar prioridade entre 1 e 5
+// ordenar pro tipo
+// sistema de remoção de itens
+// contador de comparações na ordenação
+
+// sla que porra é enum
+// daonde tiraram bool nessa porra
