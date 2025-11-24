@@ -137,10 +137,6 @@ int buscaBinariaItemNome(Item *mochila, int tamMochila)
         {
             fim = meio - 1;
         }
-        for (int i = 0; i < tamMochila; i++)
-        {
-            return i;
-        }
     }
     return -1;
 }
