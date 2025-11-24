@@ -62,7 +62,7 @@ int ordenarMochilaPorPrioridade(Item *mochila, int tamMochila)
     {
         tempItem = mochila[i];
         j = i - 1;
-        while (j >= 0 && mochila[j].prioridade < tempItem.prioridade){ // Verificação se o próximo item da lista é menor que o item atual e faz a troca
+        while (j >= 0 && mochila[j].prioridade < tempItem.prioridade){ // Verificação se o próximo item da lista é maior que o item atual e faz a troca
             quantDeComparacoes++;
             mochila[j + 1] = mochila[j];
             mochila[j] = tempItem;
@@ -114,6 +114,7 @@ int ordenarMochilaPorTipo(Item *mochila, int tamMochila)
     return quantDeComparacoes;
 }
 
+// Função para buscar o item pelo nome de forma binária
 int buscaBinariaItemNome(Item *mochila, int tamMochila)
 {
     int inicio = 0;
@@ -162,7 +163,7 @@ void removerItem(Item *mochila, int *tamMochila){
         printf("Item nao encontrado na mochila.\n");
         return;
     }
-    for (int i = indice; i < *tamMochila - 1; i++){ // atualiza todos os items da mochila movendo o item seleciona para o final
+    for (int i = indice; i < *tamMochila - 1; i++){ // atualiza todos os items da mochila sobrescrevendo com os itens posteriores
         mochila[i] = mochila[i + 1];
     }
     (*tamMochila)--; // remove o último item
@@ -176,7 +177,7 @@ int main()
     Item mochila[10];
     int tamMochila = 0;
 
-    // items de exemplo
+    // items de exemplo para teste
     printf("Incializando mochila...\n");
     Item item_inicial = {"Corda", "Ferramenta", 1, 5};
     mochila[tamMochila++] = item_inicial;
