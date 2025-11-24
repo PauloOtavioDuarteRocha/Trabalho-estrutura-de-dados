@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdbool.h>
 
+// Strutura de Item contendo todos os campos necessários
 typedef struct
 {
     char nome[50];
@@ -10,6 +11,7 @@ typedef struct
     int prioridade;
 } Item;
 
+// func para imprimir cara item de forma para melhorar a visibilidade
 void imprimirItem(Item item)
 {
     printf("------------------------\n");
@@ -20,9 +22,10 @@ void imprimirItem(Item item)
     printf("------------------------\n");
 }
 
+// func par adicionar cada item de forma individual
 void adcionarItem(Item *mochila, int *tamMochila)
 {
-    if (*tamMochila >= 10)
+    if (*tamMochila >= 10) // verificacao se ainda tem espaco na mochila
     {
         printf("Mochila cheia! Nao e possivel adicionar mais itens.\n");
         return;
@@ -36,7 +39,7 @@ void adcionarItem(Item *mochila, int *tamMochila)
     scanf("%d", &novoItem.quantidade);
     printf("Qual a prioridade do item que deseja adcionar\n");
     int i;
-    do
+    do  // loop para garantir que a prioridade esteja nos parametros
     {
         printf("Digite um numero entre 1 e 5:\n");
         scanf("%d", &i);
@@ -53,13 +56,13 @@ void adcionarItem(Item *mochila, int *tamMochila)
 // Sistema de ordenação dos itens na mochila baseado na prioridade
 int ordenarMochilaPorPrioridade(Item *mochila, int tamMochila)
 {
-    int i, j, quantDeComparacoes = 0;
+    int j, quantDeComparacoes = 0;
     Item tempItem;
-    for (i = 1; i < tamMochila; i++)
+    for (int i = 1; i < tamMochila; i++)
     {
         tempItem = mochila[i];
         j = i - 1;
-        while (j >= 0 && mochila[j].prioridade < tempItem.prioridade){
+        while (j >= 0 && mochila[j].prioridade < tempItem.prioridade){ // Verificacao se o proximo item da lista e menor que o item atual e faz a troca
             quantDeComparacoes++;
             mochila[j + 1] = mochila[j];
             mochila[j] = tempItem;
@@ -73,13 +76,13 @@ int ordenarMochilaPorPrioridade(Item *mochila, int tamMochila)
 // Sistema de ordenação dos itens na mochila baseado no nome
 int ordenarMochilaPorNome(Item *mochila, int tamMochila)
 {
-    int i, j, quantDeComparacoes = 0;
+    int j, quantDeComparacoes = 0;
     Item tempItem;
-    for (i = 1; i < tamMochila; i++)
+    for (int i = 1; i < tamMochila; i++)
     {
         tempItem = mochila[i];
         j = i - 1;
-        while (j >= 0 && strcmp(mochila[j].nome, tempItem.nome) > 0){
+        while (j >= 0 && strcmp(mochila[j].nome, tempItem.nome) > 0){ // Verificacao se o proximo item da lista e menor que o item atual e faz a troca
             quantDeComparacoes++;
             mochila[j + 1] = mochila[j];
             mochila[j] = tempItem;
@@ -93,13 +96,13 @@ int ordenarMochilaPorNome(Item *mochila, int tamMochila)
 // Sistema de ordenação dos itens na mochila baseado no tipo
 int ordenarMochilaPorTipo(Item *mochila, int tamMochila)
 {
-    int i, j, quantDeComparacoes = 0;
+    int j, quantDeComparacoes = 0;
     Item tempItem;
-    for (i = 1; i < tamMochila; i++)
+    for (int i = 1; i < tamMochila; i++)
     {
         tempItem = mochila[i];
         j = i - 1;
-        while (j >= 0 && strcmp(mochila[j].tipo, tempItem.tipo) > 0){
+        while (j >= 0 && strcmp(mochila[j].tipo, tempItem.tipo) > 0){ // Verificacao se o proximo item da lista e menor que o item atual e faz a troca
             quantDeComparacoes++;
             mochila[j + 1] = mochila[j];
             mochila[j] = tempItem;
@@ -116,25 +119,25 @@ int buscaBinariaItemNome(Item *mochila, int tamMochila)
     int inicio = 0;
     int fim = tamMochila - 1;
     char nomeBuscado[50];
-    ordenarMochilaPorNome(mochila, tamMochila);
+    ordenarMochilaPorNome(mochila, tamMochila); // chama func para ordernar a mochila para garantir que e possivel buscar de forma binaria
     printf("Digite o nome para buscar: ");
     scanf("%s", nomeBuscado);
 
-    while (inicio <= fim)
+    while (inicio <= fim) // loop para busca de items
     {
         int meio = inicio + (fim - inicio) / 2;
 
-        int comparacao = strcmp(mochila[meio].nome, nomeBuscado);
+        int comparacao = strcmp(mochila[meio].nome, nomeBuscado); // compara o nome buscado com o nome dos items
 
-        if (comparacao == 0)
+        if (comparacao == 0) // verifica se o item do meio e o certo
         {
             return meio;
         }
-        else if (comparacao < 0)
+        if (comparacao < 0) // verifica se o item e menor que o item do meio atual
         {
             inicio = meio + 1;
         }
-        else
+        else // executa se o item for maior que o item do meio atual
         {
             fim = meio - 1;
         }
@@ -142,6 +145,7 @@ int buscaBinariaItemNome(Item *mochila, int tamMochila)
     return -1;
 }
 
+// func para imprimir toda a mochila
 void runMochila(Item *mochila, int tamanho)
 {
     for (int i = 0; i < tamanho; i++)
@@ -149,26 +153,30 @@ void runMochila(Item *mochila, int tamanho)
         imprimirItem(mochila[i]);
     }
 }
+
+// func para remover um item especifico da mochila
 void removerItem(Item *mochila, int *tamMochila){
-    Item itemRemover;
     printf("Qual o nome do item que deseja remover\n");
-    int indice = buscaBinariaItemNome(mochila, *tamMochila);
-    if (indice == -1){
+    int indice = buscaBinariaItemNome(mochila, *tamMochila); // faz a busca do item a ser removido
+    if (indice == -1){ // verifica se achou o item
         printf("Item nao encontrado na mochila.\n");
         return;
     }
-    for (int i = indice; i < *tamMochila - 1; i++){
+    for (int i = indice; i < *tamMochila - 1; i++){ // atualiza todos os items da mochila movendo o item seleciona para o final
         mochila[i] = mochila[i + 1];
     }
-    (*tamMochila)--;
+    (*tamMochila)--; // remove o ultimo item
     printf("Item removido com sucesso!\n");
 }
 
+
+// func principal
 int main()
 {
     Item mochila[10];
     int tamMochila = 0;
 
+    // items de exemplo
     printf("Incializando mochila...\n");
     Item item_inicial = {"Corda", "Ferramenta", 1, 5};
     mochila[tamMochila++] = item_inicial;
@@ -184,7 +192,7 @@ int main()
     mochila[tamMochila++] = item_inicial6;
 
     bool continua = true;
-    do
+    do // loop principal do programa
     {
         printf("\n=== SISTEMA DA MOCHILA ===\n");
         printf("1 - Adicionar item\n");
@@ -198,7 +206,7 @@ int main()
         int escolha;
         scanf("%d", &escolha);
 
-        switch (escolha)
+        switch (escolha) // seleciona o caso de acordo com o input do usuario
         {
         case 1:
             adcionarItem(mochila, &tamMochila);
@@ -224,7 +232,7 @@ int main()
                 printf("Opcao invalida! Tente novamente.\n");
                 scanf("%d", &tipoOrdenacao);
             };
-            switch (tipoOrdenacao)
+            switch (tipoOrdenacao) // selecio o tipo de ordencao que o usuario inserir
             {
             case 1:
                 quantDeComparacoes = ordenarMochilaPorPrioridade(mochila, tamMochila);
@@ -269,6 +277,3 @@ int main()
 
     return 0;
 }
-
-// sla que porra é enum
-// daonde tiraram bool nessa porra
