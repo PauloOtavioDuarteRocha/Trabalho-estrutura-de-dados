@@ -79,7 +79,7 @@ int ordenarMochilaPorNome(Item *mochila, int tamMochila)
     {
         tempItem = mochila[i];
         j = i - 1;
-        while (j >= 0 && strcmp(mochila[j].nome[0], mochila[j + 1].nome) > 0){
+        while (j >= 0 && strcmp(mochila[j].nome, mochila[j + 1].nome) > 0){
             quantDeComparacoes++;
             mochila[j + 1] = mochila[j];
             j = j - 1;
