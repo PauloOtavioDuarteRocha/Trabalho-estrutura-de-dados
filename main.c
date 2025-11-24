@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-// Strutura de Item contendo todos os campos necessários
+// Estrutura de Item contendo todos os campos necessários
 typedef struct
 {
     char nome[50];
@@ -11,7 +11,7 @@ typedef struct
     int prioridade;
 } Item;
 
-// func para imprimir cara item de forma para melhorar a visibilidade
+// função para imprimir item de forma para melhorar a visibilidade
 void imprimirItem(Item item)
 {
     printf("------------------------\n");
@@ -22,30 +22,30 @@ void imprimirItem(Item item)
     printf("------------------------\n");
 }
 
-// func par adicionar cada item de forma individual
+// função para adicionar cada item de forma individual
 void adcionarItem(Item *mochila, int *tamMochila)
 {
-    if (*tamMochila >= 10) // verificacao se ainda tem espaco na mochila
+    if (*tamMochila >= 10) // Verificação de espaço disponível na mochila
     {
-        printf("Mochila cheia! Nao e possivel adicionar mais itens.\n");
+        printf("Mochila cheia! Não é possível adicionar mais itens.\n");
         return;
     }
     Item novoItem;
-    printf("Qual o nome do item que deseja adcionar\n");
+    printf("Qual o nome do item que deseja adicionar\n");
     scanf("%s", novoItem.nome);
-    printf("Qual o tipo do item que deseja adcionar\n");
+    printf("Qual o tipo do item que deseja adicionar\n");
     scanf("%s", novoItem.tipo);
-    printf("Qual a quantidade do item que deseja adcionar\n");
+    printf("Qual a quantidade do item que deseja adicionar\n");
     scanf("%d", &novoItem.quantidade);
-    printf("Qual a prioridade do item que deseja adcionar\n");
+    printf("Qual a prioridade do item que deseja adicionar\n");
     int i;
-    do  // loop para garantir que a prioridade esteja nos parametros
+    do  // loop para garantir que a prioridade esteja nos parâmetros
     {
-        printf("Digite um numero entre 1 e 5:\n");
+        printf("Digite um número entre 1 e 5:\n");
         scanf("%d", &i);
         if (i < 1 || i > 5)
         {
-            printf("Numero invalido \n");
+            printf("Número inválido \n");
         }
     } while (i < 1 || i > 5);
     novoItem.prioridade = i;
@@ -62,7 +62,7 @@ int ordenarMochilaPorPrioridade(Item *mochila, int tamMochila)
     {
         tempItem = mochila[i];
         j = i - 1;
-        while (j >= 0 && mochila[j].prioridade < tempItem.prioridade){ // Verificacao se o proximo item da lista e menor que o item atual e faz a troca
+        while (j >= 0 && mochila[j].prioridade < tempItem.prioridade){ // Verificação se o próximo item da lista é menor que o item atual e faz a troca
             quantDeComparacoes++;
             mochila[j + 1] = mochila[j];
             mochila[j] = tempItem;
@@ -82,7 +82,7 @@ int ordenarMochilaPorNome(Item *mochila, int tamMochila)
     {
         tempItem = mochila[i];
         j = i - 1;
-        while (j >= 0 && strcmp(mochila[j].nome, tempItem.nome) > 0){ // Verificacao se o proximo item da lista e menor que o item atual e faz a troca
+        while (j >= 0 && strcmp(mochila[j].nome, tempItem.nome) > 0){ // Verificação se o próximo item da lista é menor que o item atual e faz a troca
             quantDeComparacoes++;
             mochila[j + 1] = mochila[j];
             mochila[j] = tempItem;
@@ -102,7 +102,7 @@ int ordenarMochilaPorTipo(Item *mochila, int tamMochila)
     {
         tempItem = mochila[i];
         j = i - 1;
-        while (j >= 0 && strcmp(mochila[j].tipo, tempItem.tipo) > 0){ // Verificacao se o proximo item da lista e menor que o item atual e faz a troca
+        while (j >= 0 && strcmp(mochila[j].tipo, tempItem.tipo) > 0){ // Verificação se o próximo item da lista é menor que o item atual e faz a troca
             quantDeComparacoes++;
             mochila[j + 1] = mochila[j];
             mochila[j] = tempItem;
@@ -119,7 +119,7 @@ int buscaBinariaItemNome(Item *mochila, int tamMochila)
     int inicio = 0;
     int fim = tamMochila - 1;
     char nomeBuscado[50];
-    ordenarMochilaPorNome(mochila, tamMochila); // chama func para ordernar a mochila para garantir que e possivel buscar de forma binaria
+    ordenarMochilaPorNome(mochila, tamMochila); // chama função para ordenar a mochila para garantir que é possível buscar de forma binária
     printf("Digite o nome para buscar: ");
     scanf("%s", nomeBuscado);
 
@@ -129,11 +129,11 @@ int buscaBinariaItemNome(Item *mochila, int tamMochila)
 
         int comparacao = strcmp(mochila[meio].nome, nomeBuscado); // compara o nome buscado com o nome dos items
 
-        if (comparacao == 0) // verifica se o item do meio e o certo
+        if (comparacao == 0) // verifica se o item do meio é o certo
         {
             return meio;
         }
-        if (comparacao < 0) // verifica se o item e menor que o item do meio atual
+        if (comparacao < 0) // verifica se o item é menor que o item do meio atual
         {
             inicio = meio + 1;
         }
@@ -145,7 +145,7 @@ int buscaBinariaItemNome(Item *mochila, int tamMochila)
     return -1;
 }
 
-// func para imprimir toda a mochila
+// função para imprimir toda a mochila
 void runMochila(Item *mochila, int tamanho)
 {
     for (int i = 0; i < tamanho; i++)
@@ -154,7 +154,7 @@ void runMochila(Item *mochila, int tamanho)
     }
 }
 
-// func para remover um item especifico da mochila
+// função para remover um item específico da mochila
 void removerItem(Item *mochila, int *tamMochila){
     printf("Qual o nome do item que deseja remover\n");
     int indice = buscaBinariaItemNome(mochila, *tamMochila); // faz a busca do item a ser removido
@@ -165,12 +165,12 @@ void removerItem(Item *mochila, int *tamMochila){
     for (int i = indice; i < *tamMochila - 1; i++){ // atualiza todos os items da mochila movendo o item seleciona para o final
         mochila[i] = mochila[i + 1];
     }
-    (*tamMochila)--; // remove o ultimo item
+    (*tamMochila)--; // remove o último item
     printf("Item removido com sucesso!\n");
 }
 
 
-// func principal
+// função principal
 int main()
 {
     Item mochila[10];
@@ -196,7 +196,7 @@ int main()
     {
         printf("\n=== SISTEMA DA MOCHILA ===\n");
         printf("1 - Adicionar item\n");
-        printf("2 - Remover item (Nao implementado)\n");
+        printf("2 - Remover um item da mochila\n");
         printf("3 - Ver itens da mochila\n");
         printf("4 - Ordenar itens \n");
         printf("5 - Buscar item por nome (Busca Binaria)\n"); 
@@ -232,7 +232,7 @@ int main()
                 printf("Opcao invalida! Tente novamente.\n");
                 scanf("%d", &tipoOrdenacao);
             };
-            switch (tipoOrdenacao) // selecio o tipo de ordencao que o usuario inserir
+            switch (tipoOrdenacao) // seleciona o tipo de ordenação que o usuário inserir
             {
             case 1:
                 quantDeComparacoes = ordenarMochilaPorPrioridade(mochila, tamMochila);
@@ -250,19 +250,19 @@ int main()
                 break;
             }
                 runMochila(mochila,tamMochila);
-                printf("Quantidade de comparacoes executadas: %d\n", quantDeComparacoes);
+                printf("Quantidade de comparações executadas: %d\n", quantDeComparacoes);
             break;
 
         case 5:
             int indice = buscaBinariaItemNome(mochila, tamMochila);
             if (indice != -1)
             {
-                printf("\nItem ENCONTRADO na posicao %d:\n", indice+1);
+                printf("\nItem ENCONTRADO na posição %d:\n", indice+1);
                 imprimirItem(mochila[indice]);
             }
             else
             {
-                printf("\nItem NAO encontrado.\n");
+                printf("\nItem NÃO encontrado.\n");
             }
             break;
         case 0:
@@ -270,10 +270,13 @@ int main()
             printf("Saindo do programa...\n");
             break;
         default:
-            printf("Opcao invalida! Tente novamente.\n");
+            printf("Opção inválida! Tente novamente.\n");
             break;
         }
     } while (continua);
 
     return 0;
+    // 202405306147 Evandro Machado
+    // 202402265636 Ewerton Ribeiro
+    // 202402265385 Paulo Otavio Duarte Rocha
 }
