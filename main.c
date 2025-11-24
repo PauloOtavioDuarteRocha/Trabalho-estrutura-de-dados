@@ -54,18 +54,18 @@ void adcionarItem(Item *mochila, int *tamMochila)
 int ordenarMochilaPorPrioridade(Item *mochila, int tamMochila)
 {
     int i, j, quantDeComparacoes = 0;
-    Item key;
+    Item tempItem;
     for (i = 1; i < tamMochila; i++)
     {
-        key = mochila[i];
+        tempItem = mochila[i];
         j = i - 1;
-        while (j >= 0 && mochila[j].prioridade < key.prioridade){
+        while (j >= 0 && mochila[j].prioridade < tempItem.prioridade){
             quantDeComparacoes++;
             mochila[j + 1] = mochila[j];
+            mochila[j] = tempItem;
             j = j - 1;
         };
         quantDeComparacoes++;
-        mochila[j + 1] = key;
     }
     return quantDeComparacoes;
 }
@@ -79,13 +79,13 @@ int ordenarMochilaPorNome(Item *mochila, int tamMochila)
     {
         tempItem = mochila[i];
         j = i - 1;
-        while (j >= 0 && strcmp(mochila[j].nome, mochila[j + 1].nome) > 0){
+        while (j >= 0 && strcmp(mochila[j].nome, tempItem.nome) > 0){
             quantDeComparacoes++;
             mochila[j + 1] = mochila[j];
+            mochila[j] = tempItem;
             j = j - 1;
         };
         quantDeComparacoes++;
-        mochila[j + 1] = tempItem;
     }
     return quantDeComparacoes;
 }
@@ -99,9 +99,10 @@ int ordenarMochilaPorTipo(Item *mochila, int tamMochila)
     {
         tempItem = mochila[i];
         j = i - 1;
-        while (j >= 0 && strcmp(mochila[j].tipo, mochila[j + 1].tipo) > 0){
+        while (j >= 0 && strcmp(mochila[j].tipo, tempItem.tipo) > 0){
             quantDeComparacoes++;
             mochila[j + 1] = mochila[j];
+            mochila[j] = tempItem;
             j = j - 1;
         };
         quantDeComparacoes++;
@@ -248,7 +249,7 @@ int main()
             int indice = buscaBinariaItemNome(mochila, tamMochila);
             if (indice != -1)
             {
-                printf("\nItem ENCONTRADO na posicao %d:\n", indice);
+                printf("\nItem ENCONTRADO na posicao %d:\n", indice+1);
                 imprimirItem(mochila[indice]);
             }
             else
